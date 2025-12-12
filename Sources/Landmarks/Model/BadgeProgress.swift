@@ -6,6 +6,10 @@ A class that tracks progress toward earning a badge.
 */
 
 import Foundation
+import Observation
+#if canImport(SkipFuse)
+import SkipFuse
+#endif
 
 /// A class that tracks progress toward earning a badge.
 @MainActor

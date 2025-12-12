@@ -23,9 +23,11 @@ struct CollectionListItemView: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
     let previewCollection = modelData.userCollections.first!
 
     CollectionListItemView(collection: previewCollection)
 }
+#endif

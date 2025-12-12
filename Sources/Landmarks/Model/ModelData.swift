@@ -6,9 +6,17 @@ A class the app uses to store and manage model data.
 */
 
 import Foundation
+import Observation
 import SwiftUI
+#if canImport(MapKit)
 import MapKit
+#endif
+#if canImport(CoreLocation)
 import CoreLocation
+#endif
+#if canImport(SkipFuse)
+import SkipFuse
+#endif
 
 /// A class the app uses to store and manage model data.
 @Observable @MainActor
@@ -56,7 +64,7 @@ class ModelData {
         return badges
     }
 
-    var windowSize: CGSize = .zero
+    var windowSize: Foundation.CGSize = .zero
 
     init() {
         loadLandmarks()

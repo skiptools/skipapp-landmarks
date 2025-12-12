@@ -48,6 +48,7 @@ struct LandmarksSelectionList: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
     let previewCollection = modelData.userCollections.last!
@@ -55,3 +56,4 @@ struct LandmarksSelectionList: View {
     LandmarksSelectionList(landmarks: .constant(previewCollection.landmarks))
         .environment(modelData)
 }
+#endif

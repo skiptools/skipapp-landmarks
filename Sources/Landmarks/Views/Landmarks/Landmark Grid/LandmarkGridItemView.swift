@@ -30,8 +30,10 @@ struct LandmarkGridItemView: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
     let previewLandmark = modelData.landmarksById[1001] ?? modelData.landmarks.first!
     LandmarkGridItemView(landmark: previewLandmark)
 }
+#endif

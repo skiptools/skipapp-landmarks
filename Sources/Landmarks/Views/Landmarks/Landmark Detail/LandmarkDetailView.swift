@@ -6,11 +6,13 @@ A view that shows a single landmark, with an image and description.
 */
 
 import SwiftUI
+#if canImport(MapKit)
 import MapKit
+#endif
 
 /// A view that shows a single landmark, with an image and description.
 struct LandmarkDetailView: View {
-    @Environment(ModelData.self) private var modelData
+    @Environment(ModelData.self) var modelData
     let landmark: Landmark
 
     var body: some View {
@@ -29,7 +31,9 @@ struct LandmarkDetailView: View {
                         .fontWeight(.bold)
 
                     Text(landmark.description)
+                        #if !os(Android)
                         .textSelection(.enabled)
+                        #endif
                 }
                 .padding(.leading, Constants.leadingContentInset)
                 .padding(.trailing, Constants.leadingContentInset * 2)
@@ -39,9 +43,11 @@ struct LandmarkDetailView: View {
         .toolbar {
             ToolbarSpacer(.flexible)
 
+            #if !os(Android)
             ToolbarItem {
                 ShareLink(item: landmark, preview: landmark.sharePreview)
             }
+            #endif
 
             ToolbarSpacer(.fixed)
             
@@ -60,19 +66,14 @@ struct LandmarkDetailView: View {
                 }
             }
         }
+        #if !os(Android)
         .toolbar(removing: .title)
+        #endif
         .ignoresSafeArea(edges: .top)
     }
 }
 
-private struct FavoriteButtonLabel: View {
-    var isFavorite: Bool
-    var body: some View {
-        Label(isFavorite ? "Unfavorite" : "Favorite", systemImage: "heart")
-            .symbolVariant(isFavorite ? .fill : .none)
-    }
-}
-
+#if !os(Android)
 #Preview {
     @Previewable @State var modelData = ModelData()
     let previewLandmark = modelData.landmarksById[1016] ?? modelData.landmarks.first!
@@ -104,3 +105,4 @@ private struct FavoriteButtonLabel: View {
         modelData.windowSize = $0
     }
 }
+#endif

@@ -6,15 +6,19 @@ View modifiers that stretch a view in a scroll view when a person scrolls beyond
 */
 
 import SwiftUI
+import Observation
+#if canImport(SkipFuse)
+import SkipFuse
+#endif
 
-@Observable private class FlexibleHeaderGeometry {
+@Observable class FlexibleHeaderGeometry {
     var offset: CGFloat = 0
 }
 
 /// A view modifer that stretches content when the containing geometry offset changes.
-private struct FlexibleHeaderContentModifier: ViewModifier {
-    @Environment(ModelData.self) private var modelData
-    @Environment(FlexibleHeaderGeometry.self) private var geometry
+struct FlexibleHeaderContentModifier: ViewModifier {
+    @Environment(ModelData.self) var modelData
+    @Environment(FlexibleHeaderGeometry.self) var geometry
 
     func body(content: Content) -> some View {
         let height = (modelData.windowSize.height / 2) - geometry.offset
@@ -26,16 +30,18 @@ private struct FlexibleHeaderContentModifier: ViewModifier {
 }
 
 /// A view modifier that tracks scroll view geometry to stretch a view with ``FlexibleHeaderContentModifier``.
-private struct FlexibleHeaderScrollViewModifier: ViewModifier {
-    @State private var geometry = FlexibleHeaderGeometry()
+struct FlexibleHeaderScrollViewModifier: ViewModifier {
+    @State var geometry = FlexibleHeaderGeometry()
 
     func body(content: Content) -> some View {
         content
+            #if !os(Android)
             .onScrollGeometryChange(for: CGFloat.self) { geometry in
                 min(geometry.contentOffset.y + geometry.contentInsets.top, 0)
             } action: { _, offset in
                 geometry.offset = offset
             }
+            #endif
             .environment(geometry)
     }
 }

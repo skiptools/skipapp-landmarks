@@ -28,17 +28,21 @@ struct LandmarkListItemView: View {
                     .foregroundColor(.white)
                     .padding(.bottom)
             }
+            #if !os(Android)
             .contextMenu {
                 ShareLink(item: landmark, preview: landmark.sharePreview)
                 LandmarkFavoriteButton(landmark: landmark)
                 LandmarkCollectionsMenu(landmark: landmark)
             }
+            #endif
     }
 }
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
     let previewLandmark = modelData.landmarksById[1001] ?? modelData.landmarks.first!
     LandmarkListItemView(landmark: previewLandmark)
         .frame(width: 252.0, height: 180.0)
 }
+#endif

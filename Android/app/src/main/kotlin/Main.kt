@@ -1,4 +1,4 @@
-package module.landmarks
+package landmarks.module
 
 import skip.lib.*
 import skip.model.*

@@ -6,7 +6,11 @@ The main app declaration.
 */
 
 import SwiftUI
+#if canImport(SkipFuse)
+import SkipFuse
+#else
 import OSLog
+#endif
 
 /// A logger for the Landmarks module.
 let logger: Logger = Logger(subsystem: "landmarks", category: "Landmarks")
@@ -14,11 +18,11 @@ let logger: Logger = Logger(subsystem: "landmarks", category: "Landmarks")
 /// The shared top-level view for the app, loaded from the platform-specific App delegates below.
 ///
 /// The default implementation merely loads the `ContentView` for the app and logs a message.
-public struct LandmarksRootView : View {
+/* SKIP @bridge */public struct LandmarksRootView : View {
     /// An object that manages the app's data and state.
-    @State private var modelData = ModelData()
+    @State var modelData = ModelData()
 
-    public init() {
+    /* SKIP @bridge */public init() {
     }
 
     public var body: some View {
@@ -26,48 +30,50 @@ public struct LandmarksRootView : View {
             .environment(modelData)
             .frame(minWidth: 375.0, minHeight: 375.0)
             // Keeps the current window's size for use in scrolling header calculations.
+            #if !os(Android)
             .onGeometryChange(for: CGSize.self) { geometry in
                 geometry.size
             } action: {
                 modelData.windowSize = $0
             }
+            #endif
     }
 }
 
 /// Global application delegate functions.
 ///
 /// These functions can update a shared observable object to communicate app state changes to interested views.
-public final class LandmarksAppDelegate : Sendable {
-    public static let shared = LandmarksAppDelegate()
+/* SKIP @bridge */public final class LandmarksAppDelegate : Sendable {
+    /* SKIP @bridge */public static let shared = LandmarksAppDelegate()
 
     private init() {
     }
 
-    public func onInit() {
+    /* SKIP @bridge */public func onInit() {
         logger.debug("onInit")
     }
 
-    public func onLaunch() {
+    /* SKIP @bridge */public func onLaunch() {
         logger.debug("onLaunch")
     }
 
-    public func onResume() {
+    /* SKIP @bridge */public func onResume() {
         logger.debug("onResume")
     }
 
-    public func onPause() {
+    /* SKIP @bridge */public func onPause() {
         logger.debug("onPause")
     }
 
-    public func onStop() {
+    /* SKIP @bridge */public func onStop() {
         logger.debug("onStop")
     }
 
-    public func onDestroy() {
+    /* SKIP @bridge */public func onDestroy() {
         logger.debug("onDestroy")
     }
 
-    public func onLowMemory() {
+    /* SKIP @bridge */public func onLowMemory() {
         logger.debug("onLowMemory")
     }
 }

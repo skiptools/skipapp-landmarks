@@ -10,11 +10,16 @@ import SwiftUI
 /// A view that establishes split view navigation for the app.
 struct LandmarksSplitView: View {
     @Environment(ModelData.self) var modelData
-    @State private var preferredColumn: NavigationSplitViewColumn = .detail
+    #if !os(Android)
+    @State var preferredColumn: NavigationSplitViewColumn = .detail
+    #endif
 
     var body: some View {
         @Bindable var modelData = modelData
         
+        #if os(Android)
+        Text("TODO: Android")
+        #else
         NavigationSplitView(preferredCompactColumn: $preferredColumn) {
             List {
                 Section {
@@ -52,6 +57,7 @@ struct LandmarksSplitView: View {
         .searchable(text: $modelData.searchString, prompt: "Search")
         // Adds the inspector, which the landmark detail view uses to display
         // additional information.
+        #if !os(Android)
         .inspector(isPresented: $modelData.isLandmarkInspectorPresented) {
             if let landmark = modelData.selectedLandmark {
                 LandmarkDetailInspectorView(landmark: landmark, inspectorIsPresented: $modelData.isLandmarkInspectorPresented)
@@ -59,9 +65,12 @@ struct LandmarksSplitView: View {
                 EmptyView()
             }
         }
+        #endif
+        #endif
     }
 }
 
+#if !os(Android)
 #Preview {
     @Previewable @State var modelData = ModelData()
 
@@ -73,3 +82,4 @@ struct LandmarksSplitView: View {
             modelData.windowSize = $0
         }
 }
+#endif

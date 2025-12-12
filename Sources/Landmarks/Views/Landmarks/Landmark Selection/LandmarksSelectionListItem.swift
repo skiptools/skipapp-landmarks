@@ -26,14 +26,18 @@ struct LandmarksSelectionListItem: View {
             Spacer()
             if landmarks.contains(landmark) {
                 Image(systemName: "checkmark.circle.fill")
+                    #if !os(Android)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.white, .indigo)
+                    #endif
                     .font(.title)
                     .padding(.trailing, Constants.standardPadding)
 
             } else {
                 Image(systemName: "circle")
+                    #if !os(Android)
                     .symbolRenderingMode(.palette)
+                    #endif
                     .foregroundStyle(.gray)
                     .font(.title)
                     .padding(.trailing, Constants.standardPadding)
@@ -43,10 +47,12 @@ struct LandmarksSelectionListItem: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     @Previewable @State var landmarks: [Landmark] = []
     let modelData = ModelData()
     let previewLandmark = modelData.landmarksById[1012] ?? modelData.landmarks.first!
-    
+
     LandmarksSelectionListItem(landmark: previewLandmark, landmarks: $landmarks)
 }
+#endif

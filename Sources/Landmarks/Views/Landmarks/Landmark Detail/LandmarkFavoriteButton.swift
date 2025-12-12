@@ -9,7 +9,7 @@ import SwiftUI
 
 /// A button for adding or removing a landmark from the list of favorite landmarks.
 struct LandmarkFavoriteButton: View {
-    @Environment(ModelData.self) private var modelData
+    @Environment(ModelData.self) var modelData
     let landmark: Landmark
 
     var body: some View {
@@ -21,7 +21,7 @@ struct LandmarkFavoriteButton: View {
     }
 }
 
-private struct FavoriteButtonLabel: View {
+struct FavoriteButtonLabel: View {
     var isFavorite: Bool
     var body: some View {
         Label(isFavorite ? "Unfavorite" : "Favorite", systemImage: "heart")
@@ -29,6 +29,7 @@ private struct FavoriteButtonLabel: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     @Previewable @State var modelData = ModelData()
     let previewLandmark = modelData.landmarksById[1016] ?? modelData.landmarks.first!
@@ -36,3 +37,4 @@ private struct FavoriteButtonLabel: View {
     LandmarkFavoriteButton(landmark: previewLandmark)
         .environment(modelData)
 }
+#endif

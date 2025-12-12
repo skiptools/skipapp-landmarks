@@ -28,9 +28,11 @@ struct LandmarkHorizontalListView: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
 
     LandmarkHorizontalListView(landmarkList: modelData.landmarks)
         .frame(height: 180.0)
 }
+#endif
