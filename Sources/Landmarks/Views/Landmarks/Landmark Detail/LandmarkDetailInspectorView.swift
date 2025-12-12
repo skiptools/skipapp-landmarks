@@ -53,7 +53,7 @@ struct LandmarkDetailInspectorView: View {
     }
 }
 
-private struct LandmarkInspectorFormView: View {
+struct LandmarkInspectorFormView: View {
     @Environment(ModelData.self) var modelData
     
     let landmark: Landmark
@@ -66,17 +66,19 @@ private struct LandmarkInspectorFormView: View {
                 .cornerRadius(Constants.cornerRadius)
             }
             Section("Metadata") {
+                #if !os(Android)
                 LabeledContent("Coordinates", value: landmark.formattedCoordinates)
                 LabeledContent("Total Area", value: landmark.formattedTotalArea)
                 LabeledContent("Elevation", value: landmark.formattedElevation)
                 LabeledContent("Location", value: landmark.formattedLocation)
+                #endif
             }
             .multilineTextAlignment(.trailing)
         }
     }
 }
 
-private struct LandmarkInspectorBadgeView: View {
+struct LandmarkInspectorBadgeView: View {
     let landmark: Landmark
 
     var body: some View {
@@ -117,7 +119,7 @@ private struct LandmarkInspectorBadgeView: View {
     }
 }
 
-private struct EarnedBadgeView: View {
+struct EarnedBadgeView: View {
     var badge: Badge
     var body: some View {
         Image(systemName: badge.symbolName)
@@ -136,7 +138,7 @@ private struct EarnedBadgeView: View {
     }
 }
 
-private struct BadgeProgressView: View {
+struct BadgeProgressView: View {
     let activity: Activity
     var badgeProgress: BadgeProgress
     
@@ -144,12 +146,18 @@ private struct BadgeProgressView: View {
         Group {
             if badgeProgress.isCompleted(activity) {
                 Image(systemName: "checkmark.circle.fill")
+                    #if !os(Android)
                     .symbolRenderingMode(.palette)
+                    #endif
+                    #if !os(Android)
                     .foregroundStyle(.white, .indigo)
+                    #endif
                     .font(.title)
             } else {
                 Image(systemName: "circle")
+                    #if !os(Android)
                     .symbolRenderingMode(.palette)
+                    #endif
                     .foregroundStyle(.gray)
                     .font(.title)
             }
@@ -164,6 +172,7 @@ private struct BadgeProgressView: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     @Previewable @State var modelData = ModelData()
     modelData.selectedLandmark = modelData.landmarksById[1016] ?? modelData.landmarks.first!
@@ -171,3 +180,4 @@ private struct BadgeProgressView: View {
     return LandmarkDetailInspectorView(landmark: modelData.selectedLandmark!, inspectorIsPresented: .constant(true))
         .environment(modelData)
 }
+#endif

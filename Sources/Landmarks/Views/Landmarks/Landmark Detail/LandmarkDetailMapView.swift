@@ -6,7 +6,9 @@ A view that shows a single landmark on a map.
 */
 
 import SwiftUI
+#if canImport(MapKit)
 import MapKit
+#endif
 
 /// A view that shows a single landmark on a map.
 struct LandmarkDetailMapView: View {
@@ -26,6 +28,7 @@ struct LandmarkDetailMapView: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     @Previewable @State var modelData = ModelData()
     let previewLandmark = modelData.landmarksById[1012] ?? modelData.landmarks.first!
@@ -33,3 +36,4 @@ struct LandmarkDetailMapView: View {
 
     LandmarkDetailMapView(landmark: previewLandmark, landmarkMapItem: previewMapItem)
 }
+#endif

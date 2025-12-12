@@ -6,6 +6,10 @@ A structure that defines a collection of landmarks that a person defines.
 */
 
 import SwiftUI
+import Observation
+#if canImport(SkipFuse)
+import SkipFuse
+#endif
 
 /// A structure that defines a collection of landmarks that a person defines.
 @Observable
@@ -49,6 +53,9 @@ extension LandmarkCollection {
         #if os(macOS)
         return Color(nsColor: .secondarySystemFill)
         #endif
+        #if os(Android)
+        return Color.secondary
+        #endif
     }
 }
 
@@ -60,6 +67,7 @@ extension LandmarkCollection {
                 .resizable()
                 .aspectRatio(1.0, contentMode: .fit)
         case 4, 4...:
+            #if !os(Android)
             Grid(horizontalSpacing: 0, verticalSpacing: 0) {
                 GridRow {
                     Image(landmarks[0].thumbnailImageName)
@@ -79,6 +87,7 @@ extension LandmarkCollection {
                 }
             }
             .cornerRadius(Constants.collectionGridItemCornerRadius)
+            #endif
         default:
             RoundedRectangle(cornerRadius: 8.0)
                 .fill(backgroundColor)

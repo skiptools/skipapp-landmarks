@@ -15,7 +15,9 @@ struct ReadabilityRoundedRectangle: View {
             .background(
                 LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .center)
             )
+            #if !os(Android)
             .containerRelativeFrame(.vertical)
+            #endif
             .clipped()
     }
 }

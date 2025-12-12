@@ -40,11 +40,14 @@ struct CollectionDetailView: View {
         .background(Color(nsColor: isEditing && colorScheme == .light ? .secondarySystemFill : .windowBackgroundColor))
         #endif
         .navigationBarBackButtonHidden(isEditing)
+        #if !os(Android)
         .toolbar(removing: .title)
+        #endif
         .sheet(isPresented: $isShowingLandmarksSelection) {
             LandmarksSelectionList(landmarks: $collection.landmarks)
                 .frame(minWidth: 200.0, minHeight: 400.0)
         }
+        #if !os(Android)
         .toolbar {
             #if os(macOS)
             let deleteButtonPlacement: ToolbarItemPlacement = .secondaryAction
@@ -73,6 +76,7 @@ struct CollectionDetailView: View {
                 }
             }
         }
+        #endif
     }
         
     var deleteCollectionToolbarItemButton: some View {
@@ -104,12 +108,15 @@ struct CollectionDetailView: View {
     }
 }
 
+#if !os(Android)
 extension AnyTransition {
     @MainActor static func editButtonTransition() -> AnyTransition {
         .asymmetric(insertion: .init(.symbolEffect(.drawOn)), removal: .opacity)
     }
 }
+#endif
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
     let previewCollection = modelData.userCollections.last!
@@ -119,4 +126,5 @@ extension AnyTransition {
             .environment(modelData)
     }
 }
+#endif
 

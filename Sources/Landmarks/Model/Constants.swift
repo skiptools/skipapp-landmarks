@@ -121,6 +121,8 @@ struct Constants {
     // MARK: Style
 #if os(macOS)
     static let editingBackgroundStyle = WindowBackgroundShapeStyle.windowBackground
+#elseif os(Android)
+    static let editingBackgroundStyle = Color.secondary
 #else
     static let editingBackgroundStyle = Material.ultraThickMaterial
 #endif

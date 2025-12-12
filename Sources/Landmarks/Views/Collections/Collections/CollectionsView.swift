@@ -23,6 +23,7 @@ struct CollectionsView: View {
                 .padding(.leading, Constants.leadingContentInset)
                 
                 LandmarkHorizontalListView(landmarkList: modelData.favoritesCollection.landmarks)
+                    #if !os(Android)
                     .containerRelativeFrame(.vertical) { height, axis in
                         let proposedHeight = height * Constants.landmarkListPercentOfHeight
                         if proposedHeight > Constants.landmarkListMinimumHeight {
@@ -30,6 +31,7 @@ struct CollectionsView: View {
                         }
                         return Constants.landmarkListMinimumHeight
                     }
+                    #endif
 
                 HStack {
                     CollectionTitleView(title: "My Collections", comment: "Section title above the person's collections.")
@@ -62,7 +64,7 @@ struct CollectionsView: View {
     }
 }
 
-private struct CollectionTitleView: View {
+struct CollectionTitleView: View {
     let title: LocalizedStringKey
     let comment: StaticString
     
@@ -74,7 +76,9 @@ private struct CollectionTitleView: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     CollectionsView()
         .environment(ModelData())
 }
+#endif

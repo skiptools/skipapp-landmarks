@@ -44,6 +44,7 @@ struct LandmarkFeaturedItemView: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
     let previewLandmark = modelData.landmarksById[1012] ?? modelData.landmarks.first!
@@ -52,3 +53,4 @@ struct LandmarkFeaturedItemView: View {
         .frame(height: 400.0)
         .environment(modelData)
 }
+#endif

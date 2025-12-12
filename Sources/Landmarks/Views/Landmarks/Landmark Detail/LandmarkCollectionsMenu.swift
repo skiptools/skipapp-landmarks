@@ -9,7 +9,7 @@ import SwiftUI
 
 /// A menu a person uses to add or remove a landmark from a collection.
 struct LandmarkCollectionsMenu: View {
-    @Environment(ModelData.self) private var modelData
+    @Environment(ModelData.self) var modelData
     let landmark: Landmark
 
     var body: some View {
@@ -23,6 +23,7 @@ struct LandmarkCollectionsMenu: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     @Previewable @State var modelData = ModelData()
     let previewLandmark = modelData.landmarksById[1016] ?? modelData.landmarks.first!
@@ -30,3 +31,4 @@ struct LandmarkCollectionsMenu: View {
     LandmarkCollectionsMenu(landmark: previewLandmark)
         .environment(modelData)
 }
+#endif

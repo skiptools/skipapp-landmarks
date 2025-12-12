@@ -7,11 +7,12 @@ A view with a toggle button that shows or hides earned badges in a vertical layo
 
 import SwiftUI
 
+#if !os(Android)
 /// A view with a toggle button that shows or hides earned badges in a vertical layout.
 struct BadgesView: View {
-    @Environment(ModelData.self) private var modelData
-    @State private var isExpanded: Bool = false
-    @Namespace private var namespace
+    @Environment(ModelData.self) var modelData
+    @State var isExpanded: Bool = false
+    @Namespace var namespace
     
     var body: some View {
         // Organizes the badges and toggle button to animate together.
@@ -51,8 +52,9 @@ struct BadgesView: View {
         }
     }
 }
+#endif
 
-private struct BadgeLabel: View {
+struct BadgeLabel: View {
     var badge: Badge
     var body: some View {
         Image(systemName: badge.symbolName)
@@ -72,7 +74,7 @@ private struct BadgeLabel: View {
     }
 }
 
-private struct ToggleBadgesLabel: View {
+struct ToggleBadgesLabel: View {
     var isExpanded: Bool
     var body: some View {
         Label(isExpanded ? "Hide Badges" : "Show Badges",
@@ -85,17 +87,20 @@ private struct ToggleBadgesLabel: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     @Previewable @State var model = ModelData()
     BadgesView()
         .environment(model)
 }
+#endif
 
 /// A view modifier that places ``BadgesView`` over a modified view, in the lower trailing corner.
-private struct ShowsBadgesViewModifier: ViewModifier {
+struct ShowsBadgesViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
             content
+            #if !os(Android)
             HStack {
                 Spacer()
                 VStack {
@@ -104,6 +109,7 @@ private struct ShowsBadgesViewModifier: ViewModifier {
                         .padding()
                 }
             }
+            #endif
         }
     }
 }

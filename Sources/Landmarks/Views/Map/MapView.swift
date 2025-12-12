@@ -6,14 +6,16 @@ A view that presents all the landmarks in a global map.
 */
 
 import SwiftUI
+#if canImport(MapKit)
 import MapKit
+#endif
 
 /// A view that presents all the landmarks in a global map.
 struct MapView: View {
     @Environment(ModelData.self) var modelData
     
-    @State private var selection: MKMapItem?
-    @State private var landmarkMapItems: [MKMapItem] = []
+    @State var selection: MKMapItem?
+    @State var landmarkMapItems: [MKMapItem] = []
     
     var body: some View {
         @Bindable var modelData = modelData
@@ -34,11 +36,15 @@ struct MapView: View {
                 modelData.locationFinder = LocationFinder()
             }
         }
+        #if !os(Android)
         .toolbar(removing: .title)
+        #endif
     }
 }
 
+#if !os(Android)
 #Preview {
     MapView()
         .environment(ModelData())
 }
+#endif

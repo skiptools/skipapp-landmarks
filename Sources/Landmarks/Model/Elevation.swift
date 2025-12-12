@@ -16,7 +16,9 @@ enum Elevation {
     /// A case that captures a closed range of elevation between low and high measurements, such as "between 1,000 and 3,000 meters."
     case closedRange(low: Measurement<UnitLength>, high: Measurement<UnitLength>)
     
+    #if !os(Android)
     static func formatted(_ elevation: Measurement<UnitLength>) -> String {
         elevation.formatted(.measurement(width: .abbreviated, usage: .asProvided))
     }
+    #endif
 }

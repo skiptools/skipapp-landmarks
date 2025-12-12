@@ -5,10 +5,16 @@ Abstract:
 A structure that defines the properties of a landmark.
 */
 
-import CoreLocation
-import CoreTransferable
 import SwiftUI // Image
+#if canImport(MapKit)
 import MapKit
+#endif
+#if canImport(CoreLocation)
+import CoreLocation
+#endif
+#if canImport(CoreTransferable)
+import CoreTransferable
+#endif
 
 /// A structure that defines the properties of a landmark.
 struct Landmark: Hashable, Identifiable, Transferable {
@@ -47,11 +53,16 @@ struct Landmark: Hashable, Identifiable, Transferable {
 
     var formattedTotalArea: String {
         guard let totalArea else { return "" }
+        #if !os(Android)
         return totalArea.formatted(.measurement(width: .abbreviated, usage: .asProvided))
+        #else
+        return "TODO: formatted"
+        #endif
     }
 
     var formattedElevation: String {
         guard let elevation else { return "" }
+        #if !os(Android)
         switch elevation {
         case .fixed(let elevation):
             return Elevation.formatted(elevation)
@@ -62,6 +73,9 @@ struct Landmark: Hashable, Identifiable, Transferable {
             return String(localized: "\(lowElevation.value.formatted())–\(Elevation.formatted(highElevation))",
                           comment: "The elevation range of a landmark, where both bounds are specified (such as '100–300 m')")
         }
+        #else
+        return "TODO: formatted elevation"
+        #endif
     }
 
     var formattedLocation: String {
@@ -82,6 +96,7 @@ struct Landmark: Hashable, Identifiable, Transferable {
         hasher.combine(id)
     }
 
+    #if !os(Android)
     static var transferRepresentation: some TransferRepresentation {
         ProxyRepresentation {
             Image($0.thumbnailImageName)
@@ -91,4 +106,5 @@ struct Landmark: Hashable, Identifiable, Transferable {
     var sharePreview: SharePreview<Never, Image> {
         SharePreview(name, icon: Image(thumbnailImageName))
     }
+    #endif
 }

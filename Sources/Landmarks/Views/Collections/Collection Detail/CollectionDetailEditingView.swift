@@ -90,6 +90,7 @@ struct CollectionDetailEditingView: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
     let previewCollection = modelData.userCollections.last!
@@ -98,4 +99,5 @@ struct CollectionDetailEditingView: View {
                                 isShowingLandmarksSelection: .constant(false),
                                 isShowingDeleteConfirmation: .constant(false))
 }
+#endif
 

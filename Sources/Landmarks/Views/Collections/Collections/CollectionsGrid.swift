@@ -32,9 +32,11 @@ struct CollectionsGrid: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
 
     CollectionsGrid()
         .environment(modelData)
 }
+#endif

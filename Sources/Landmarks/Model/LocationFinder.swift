@@ -6,7 +6,13 @@ A class the app uses to find the current location.
 */
 
 import Foundation
+import Observation
+#if canImport(CoreLocation)
 import CoreLocation
+#endif
+#if canImport(SkipFuse)
+import SkipFuse
+#endif
 
 /// A class the app uses to find the current location.
 @Observable

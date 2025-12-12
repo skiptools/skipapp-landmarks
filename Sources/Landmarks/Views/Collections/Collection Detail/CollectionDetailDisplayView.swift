@@ -34,9 +34,11 @@ struct CollectionDetailDisplayView: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
     let previewCollection = modelData.userCollections.last!
 
     CollectionDetailDisplayView(collection: previewCollection)
 }
+#endif

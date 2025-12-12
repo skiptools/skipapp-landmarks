@@ -10,14 +10,14 @@ let package = Package(
         .library(name: "Landmarks", type: .dynamic, targets: ["Landmarks"]),
     ],
     dependencies: [
-        //.package(url: "https://source.skip.tools/skip.git", from: "1.6.6"),
-        //.package(url: "https://source.skip.tools/skip-fuse-ui.git", from: "1.0.0")
+        .package(url: "https://source.skip.tools/skip.git", from: "1.6.6"),
+        .package(url: "https://source.skip.tools/skip-fuse-ui.git", from: "1.0.0")
     ],
     targets: [
         .target(name: "Landmarks", dependencies: [
-            //.product(name: "SkipFuseUI", package: "skip-fuse-ui")
-        ], resources: [.process("Resources")]
-        //plugins: [.plugin(name: "skipstone", package: "skip")]
+            .product(name: "SkipFuseUI", package: "skip-fuse-ui")
+        ], resources: [.process("Resources")],
+        plugins: [.plugin(name: "skipstone", package: "skip")]
         )
     ]
 )

@@ -41,9 +41,11 @@ struct LandmarksGrid: View {
     }
 }
 
+#if !os(Android)
 #Preview {
     let modelData = ModelData()
     let previewCollection = modelData.userCollections[2]
 
     LandmarksGrid(landmarks: .constant(previewCollection.landmarks), forEditing: true)
 }
+#endif
