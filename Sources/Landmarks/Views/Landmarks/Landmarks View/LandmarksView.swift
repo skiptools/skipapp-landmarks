@@ -21,12 +21,12 @@ struct LandmarksView: View {
                 LandmarkFeaturedItemView(landmark: modelData.featuredLandmark!)
                     .flexibleHeaderContent()
 
-                #if !os(Android)
                 ForEach(ModelData.orderedContinents, id: \.self) { continent in
                     Group {
                         ContinentTitleView(title: continent.name)
                         if let landmarkList = modelData.landmarksByContinent[continent] {
                             LandmarkHorizontalListView(landmarkList: landmarkList)
+                                #if !os(Android)
                                 .containerRelativeFrame(.vertical) { height, axis in
                                     let proposedHeight = height * Constants.landmarkListPercentOfHeight
                                     if proposedHeight > Constants.landmarkListMinimumHeight {
@@ -34,10 +34,10 @@ struct LandmarksView: View {
                                     }
                                     return Constants.landmarkListMinimumHeight
                                 }
+                                #endif
                         }
                     }
                 }
-                #endif
             }
         }
         .flexibleHeaderScrollView()
